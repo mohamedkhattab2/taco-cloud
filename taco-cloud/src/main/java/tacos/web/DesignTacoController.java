@@ -26,10 +26,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
-@Controller
-@RequestMapping("/design")
-@SessionAttributes("tacoOrder")
+@Slf4j  // simple logging faced for java
+@Controller  // serves to identify this class as a controller and mark it as a candidate for component scanning, so
+// spring will discover it and automatically create an instance from DesignTacoController as a bean in spring application context
+@RequestMapping("/design")  // specifies the kind of requests that this controller will handles, in this case DesignTacoContrller
+// handle requests whose path begins of /design
+@SessionAttributes("tacoOrder")  // this is indicates that the TacoOrder object that is put in to a model should be be maintain in a session
 public class DesignTacoController {
 
     //  Build a list of ingredients
