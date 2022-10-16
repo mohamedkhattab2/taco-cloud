@@ -27,3 +27,8 @@ div.ingredient-group {
 span.validationError {
     color: red;
 }
+
+a {
+    display: flex;
+    justify-content: center;
+}

@@ -13,12 +13,14 @@ package tacos.web;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
 import tacos.Taco;
 import tacos.TacoOrder;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,9 +28,9 @@ import java.util.stream.Collectors;
 @Slf4j  // simple logging faced for java
 @Controller  // serves to identify this class as a controller and mark it as a candidate for component scanning, so
 // spring will discover it and automatically create an instance from DesignTacoController as a bean in spring application context
-@RequestMapping("/design")  // specifies the kind of requests that this controller will handles, in this case DesignTacoContrller
+@RequestMapping("/design")  // specifies the kind of requests that this controller will handle, in this case DesignTacoController
 // handle requests whose path begins of /design
-@SessionAttributes("tacoOrder")  // this is indicates that the TacoOrder object that is put in to a model should be be maintain in a session
+@SessionAttributes("tacoOrder")  // this is indicates that the TacoOrder object that is put in to a model should be maintained in a session
 public class DesignTacoController {
 
     //  Build a list of ingredients
@@ -66,12 +68,19 @@ public class DesignTacoController {
     public Taco taco() {
         return new Taco();
     }
+
     @GetMapping
     public String showDesignForm() {
         return "design";
     }
+
+
     @PostMapping
-    public String processTaco(Taco taco,@ModelAttribute TacoOrder tacoOrder){
+    public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder tacoOrder){
+        if (errors.hasErrors()){
+            return "design";
+        }
+
         tacoOrder.addTaco(taco);
         log.info("Processing taco: {}",taco);
         return "redirect:/orders/current";
