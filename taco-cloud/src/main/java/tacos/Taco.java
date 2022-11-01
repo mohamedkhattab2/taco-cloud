@@ -7,10 +7,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Data
+@Table
+@EqualsAndHashCode(exclude = "createdAt")
 public class Taco {
-
+    @Id
     private Long id;
 
     private Date createdAt = new Date();
